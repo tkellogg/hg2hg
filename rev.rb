@@ -35,11 +35,12 @@ branch: #{@branch}"
 	end
 	
 	def ==(rev)
-		self.hash == rev.hash
+		@hash == rev.hash
 	end
 	
 	def is_a_parent?(rev)
 		ret = false
+		return true if self == rev
 		@parents.each{|r|
 			if self != r
 				ret = r.is_a_parent? rev

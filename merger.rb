@@ -19,6 +19,10 @@ class TmpRepo
 	def current_rev=(rev)
 		@current_rev = rev
 	end
+	
+	def checkout(rev)
+		`hg revert `
+	end
 end
 
 class Merger

@@ -16,15 +16,19 @@ describe Rev, "#is_a_parent?" do
 		child = new_rev 'abc4', [rev]
 		wrong_branch = new_rev 'abc5', [rev.parents.first]
 		
-		it "returns true for parents" do
+		it "should return true for parents" do
 			rev.is_a_parent?(endRev).should == true
 		end
 		
-		it "returns false for children" do
+		it "should return true if they're the same" do
+			rev.is_a_parent?(rev).should == true
+		end
+		
+		it "should return false for children" do
 			rev.is_a_parent?(child).should == false
 		end
 		
-		it "returns false if it's the wrong branch" do
+		it "should return false if it's the wrong branch" do
 			rev.is_a_parent?(wrong_branch).should == false
 		end
 	end
