@@ -1,5 +1,6 @@
 require File.dirname(__FILE__)+'/repo'
 require File.dirname(__FILE__)+'/rev'
+require File.dirname(__FILE__)+'/merger'
 
 def check_params()
 	usage if ARGV.length < 2
@@ -55,5 +56,11 @@ if $starting_at
 		puts "starting from #{rev.num} (#{rev.hash[0..5]}) of #{$into.path}"
 		sameAs = find_rev($from, rev)
 		puts "and using #{sameAs.num} (#{sameAs.hash[0..5]}) of #{$from.path}"
+		merger = Merger.new $from, $into
+		begin
+			merger.merge
+		ensure
+			merger.dispose
+		end
 	end
 end

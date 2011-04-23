@@ -1,5 +1,17 @@
 
+module RepoExtensions
+	def path
+		@path
+	end
+	
+	def revs
+		@revs
+	end
+end
+
 class Repo
+	include RepoExtensions
+	
 	def initialize(path)
 		@path = path
 		init_revs
@@ -74,13 +86,5 @@ class Repo
 				p.children << r
 			}
 		}
-	end
-	
-	def path
-		@path
-	end
-	
-	def revs
-		@revs
 	end
 end

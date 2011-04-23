@@ -33,4 +33,21 @@ comment: #{@msg}
 date: #{@date}
 branch: #{@branch}"
 	end
+	
+	def ==(rev)
+		self.hash == rev.hash
+	end
+	
+	def is_a_parent?(rev)
+		ret = false
+		@parents.each{|r|
+			if self != r
+				ret = r.is_a_parent? rev
+			else
+				ret = true
+				break
+			end
+		}
+		ret
+	end
 end
