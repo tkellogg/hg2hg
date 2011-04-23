@@ -68,6 +68,12 @@ class Repo
 			end
 			last = r
 		}
+		@revs.first.parents = Array.new
+		@revs.reverse_each {|r|
+			r.parents.each {|p|
+				p.children << r
+			}
+		}
 	end
 	
 	def path

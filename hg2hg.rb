@@ -31,10 +31,29 @@ You are receiving this message because the arguments you used are invalid"
 	exit(1)
 end
 
+def same_revs?(a, b)
+	# dates seem to be the only thing that stays the same during a migration
+	# from TFS to SVN to Git to Mecurial
+	a.date == b.date
+end
+
+def find_rev(repo, rev)
+	all = repo.revs.select {|x| same_revs? x, rev}
+	if all.length > 1
+		puts "ugh..we found #{all.length} possible revs"
+	end
+	all.first
+end
 
 check_params
 if $starting_at
 	revs = $into.revs.select {|x| x.hash.start_with?($starting_at) or x.num == $starting_at}
 	rev = revs.first
-	puts "starting from #{rev.num} (#{rev.hash[0..5]}) of #{$into.path}"
+	if rev == nil
+		puts "couldn't find the revision you are looking for"
+	else
+		puts "starting from #{rev.num} (#{rev.hash[0..5]}) of #{$into.path}"
+		sameAs = find_rev($from, rev)
+		puts "and using #{sameAs.num} (#{sameAs.hash[0..5]}) of #{$from.path}"
+	end
 end
